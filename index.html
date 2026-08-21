@@ -59,7 +59,7 @@
 
   .drawer{
     max-width:700px;
-    margin:0 auto 2rem;
+    margin:0 auto 1rem;
     padding:0 1.5rem;
   }
 
@@ -85,6 +85,34 @@
   }
 
   .drawer-label input::placeholder{ color:rgba(242,237,225,0.55); }
+
+  .section-nav{
+    max-width:700px;
+    margin:0 auto 1.5rem;
+    padding:0 1.5rem;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+
+  .chip{
+    font-size:12.5px;
+    font-weight:700;
+    padding:6px 13px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    background:var(--paper-card);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+
+  .chip:hover{ border-color:var(--ink-soft); color:var(--ink); }
+
+  .chip.active{
+    background:var(--rust);
+    border-color:var(--rust);
+    color:#FBF8F1;
+  }
 
   .section-label{
     max-width:700px;
@@ -113,6 +141,10 @@
     border-radius:6px;
     padding:16px 18px;
     cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
     transition:transform 0.12s ease, box-shadow 0.12s ease;
   }
 
@@ -123,6 +155,15 @@
     font-weight:700;
     font-size:18px;
     margin:0;
+  }
+
+  .card-section{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--ink-soft);
+    white-space:nowrap;
   }
 
   .empty{
@@ -173,6 +214,15 @@
 
   .modal-close:hover{ color:var(--ink); }
 
+  .modal-section{
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--rust);
+    margin:0 0 8px;
+  }
+
   .modal h2{
     font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight:700;
@@ -194,6 +244,7 @@
   .modal li{ margin-bottom:6px; line-height:1.5; font-size:14.5px; }
   .modal ol{ margin:0; padding-left:1.2rem; }
   .modal ol li{ margin-bottom:10px; line-height:1.55; font-size:14.5px; }
+  .modal .note{ font-size:13px; color:var(--ink-soft); margin-top:16px; line-height:1.5; }
 
   @media (max-width:480px){
     .modal{ padding:1.5rem 1.4rem 1.8rem; }
@@ -215,6 +266,8 @@
   </div>
 </div>
 
+<div class="section-nav" id="sectionNav"></div>
+
 <p class="section-label" id="listLabel">Recently used</p>
 <div class="list" id="list"></div>
 <p class="empty" id="emptyMsg" style="display:none;">No recipes match that search.</p>
@@ -226,12 +279,13 @@
 <script>
   // ---- YOUR RECIPES LIVE HERE ----
   // Copy a block below and edit it to add a new recipe.
-  // "id" must be unique for each recipe — it's how the site remembers
-  // which ones you've opened recently. Keep it short, lowercase, no spaces.
+  // "id" must be unique — lowercase, no spaces, used to track recently used.
+  // "section" controls which section button groups it under.
   const recipes = [
-        {
+    {
       id: "cafe-de-paris-beurre",
       title: "Café de Paris Beurre",
+      section: "Sauces",
       ingredients: [
         "750g unsalted butter",
         "1/2 bunch parsley",
@@ -254,65 +308,432 @@
       ]
     },
     {
+      id: "anchovy-butter",
+      title: "Anchovy Butter",
+      section: "Sauces",
+      ingredients: [
+        "750g butter, soft",
+        "3 cloves garlic",
+        "100g anchovies",
+        "1/2 bunch parsley",
+        "2 lemons, juiced",
+        "1/2 bunch tarragon"
+      ],
+      steps: [
+        "Combine all ingredients and wrap in parchment paper to form a cylinder shape.",
+        "Refrigerate and slice as needed."
+      ]
+    },
+    {
+      id: "bearnaise-sauce",
+      title: "Bearnaise Sauce",
+      section: "Sauces",
+      ingredients: [
+        "400ml tarragon vinegar",
+        "200ml white wine",
+        "100g eschallot",
+        "6 peppercorns",
+        "10 egg yolks",
+        "1kg unsalted butter",
+        "1/2 bunch tarragon",
+        "1/2 bunch chervil",
+        "Maldon salt"
+      ],
+      steps: [
+        "Clarify the butter.",
+        "In a saucepan, combine vinegar, eschallot, peppercorns and white wine. Reduce by half.",
+        "Cool the saucepan, add egg yolks, and beat over a double boiler until the mixture thickens to ribbon stage.",
+        "Incorporate the butter, add chopped tarragon and chervil, and check the seasoning."
+      ]
+    },
+    {
+      id: "hollandaise-sauce",
+      title: "Hollandaise Sauce",
+      section: "Sauces",
+      ingredients: [
+        "300ml white wine",
+        "200ml white vinegar",
+        "80g eschallots",
+        "6 peppercorns",
+        "10 egg yolks",
+        "1kg unsalted butter",
+        "Lemon juice and salt"
+      ],
+      steps: [
+        "In a saucepan, combine vinegar, white wine, eschallot and peppercorns. Bring to the boil, then reduce by half.",
+        "Add egg yolks and beat over a double boiler until thick and creamy.",
+        "Incorporate the clarified butter, add lemon juice, and check the seasoning."
+      ],
+      note: "Variances — Sauce Mousseline: hollandaise + whipped cream. Sauce Maltaise: hollandaise + reduced orange juice + blanched orange zest. Sauce Moutarde: hollandaise + Dijon mustard."
+    },
+    {
       id: "beurre-blanc",
       title: "Beurre Blanc",
+      section: "Sauces",
       ingredients: [
-        "100ml white wine vinegar",
-        "50ml dry white wine",
-        "2 shallots, finely diced",
-        "250g cold butter, cubed",
-        "Salt to taste"
+        "200ml white wine",
+        "200ml white vinegar",
+        "50g eschallots",
+        "6 peppercorns",
+        "100ml pouring cream",
+        "500g unsalted butter",
+        "2 sprigs thyme",
+        "1 bay leaf",
+        "Lemon juice and salt"
       ],
       steps: [
-        "Reduce vinegar, wine and shallots until nearly dry.",
-        "Lower heat, whisk in cold butter a few cubes at a time.",
-        "Season with salt, strain if a smooth finish is needed.",
-        "Hold warm off direct heat — do not boil."
+        "Make a reduction with white wine, vinegar, eschallot, thyme and bay leaf. Reduce by half.",
+        "Add cream and bring to the boil.",
+        "Add butter gradually, then strain through a sieve.",
+        "Season with salt and lemon juice."
       ]
     },
     {
-      id: "brown-stock",
-      title: "Basic Brown Stock",
+      id: "white-fish-cream-sauce",
+      title: "White Fish Cream Sauce",
+      section: "Sauces",
       ingredients: [
-        "5kg beef or veal bones",
-        "2 onions, halved",
-        "2 carrots, chopped",
-        "2 celery stalks, chopped",
-        "Tomato paste",
-        "Water to cover"
+        "50g eschallot",
+        "1lt white wine",
+        "4 sprigs thyme",
+        "1 bay leaf",
+        "6 peppercorns",
+        "2lt fish stock",
+        "100g mushroom trimmings",
+        "2lt pouring cream",
+        "Celery sticks",
+        "1 leek"
       ],
       steps: [
-        "Roast bones at 220°C until deeply browned.",
-        "Roast vegetables until caramelized.",
-        "Combine in a stockpot, deglaze roasting pan, add to pot.",
-        "Cover with water, simmer 8-12 hours, skimming regularly.",
-        "Strain and cool."
+        "In a saucepan, fry off eschallots, leek, celery and mushrooms.",
+        "Add white wine, thyme, bay leaf and peppercorns, and reduce by half.",
+        "Add fish stock and reduce by half again.",
+        "Add cream and reduce until desired thickness, then pass through a sieve and season."
       ]
     },
     {
-      id: "pate-a-choux",
-      title: "Pate a Choux",
+      id: "bisque-sauce",
+      title: "Bisque Sauce",
+      section: "Sauces",
       ingredients: [
-        "250ml water",
-        "100g butter",
-        "150g flour",
-        "4 eggs",
-        "Pinch of salt"
+        "6kg raw lobster heads",
+        "500ml olive oil",
+        "500g carrots",
+        "4 onions",
+        "4 sticks celery",
+        "2kg fresh tomatoes",
+        "500g tomato paste",
+        "400ml brandy",
+        "500ml white wine",
+        "4lt fish stock",
+        "2 heads garlic",
+        "10 peppercorns"
       ],
       steps: [
-        "Bring water, butter and salt to a boil.",
-        "Add flour off heat, stir until dough pulls from sides.",
-        "Cook 1-2 minutes to dry out, then cool slightly.",
-        "Beat in eggs one at a time until glossy.",
-        "Pipe and bake at 200°C until puffed and golden."
+        "In a large saucepan, fry crushed lobster heads in olive oil until the shells colour. Remove the shells.",
+        "Add vegetables cut into mirepoix and sweat them. Add garlic, peppercorns, tomatoes and tomato paste.",
+        "Put the shells back in, then flambé with brandy.",
+        "Add white wine, bring to the boil. Add fish stock, bring to the boil again, and remove scum from the surface.",
+        "Reduce to the desired consistency."
       ]
+    },
+    {
+      id: "satay-sauce",
+      title: "Satay Sauce",
+      section: "Sauces",
+      ingredients: [
+        "100g onions, chopped",
+        "4 cloves garlic",
+        "1 coin ginger",
+        "60g brown sugar",
+        "200g peanut butter",
+        "400ml coconut milk",
+        "1 bunch coriander roots",
+        "100g Thai curry paste",
+        "100g toasted peanuts",
+        "50ml fish sauce",
+        "50ml lime juice"
+      ],
+      steps: [
+        "Fry off onion, garlic, ginger and coriander roots.",
+        "Add curry paste and sugar, cook out for 5 minutes.",
+        "Add remaining ingredients and simmer for 30 minutes.",
+        "Purée until smooth."
+      ]
+    },
+    {
+      id: "bread-sauce",
+      title: "Bread Sauce",
+      section: "Sauces",
+      ingredients: [
+        "Sliced white bread, crusts off",
+        "1 clove garlic",
+        "Salt, pepper and sugar",
+        "250ml vegetable oil",
+        "200ml milk"
+      ],
+      steps: [
+        "Place bread in a bowl and cover with milk until absorbed. Squeeze out excess milk.",
+        "Place in the robot coupe and purée with garlic, sugar, salt and pepper until fine.",
+        "Slowly add the oil as if making mayonnaise."
+      ]
+    },
+    {
+      id: "garlic-bbq-glaze",
+      title: "Garlic BBQ Glaze",
+      section: "Sauces",
+      ingredients: [
+        "1/2 cup rice vinegar",
+        "1/2 cup cider vinegar",
+        "1 tbsp coriander seeds",
+        "1/2 tbsp whole cloves",
+        "3 allspice berries",
+        "2 tbsp virgin olive oil",
+        "1/2 white onion",
+        "10 cloves garlic",
+        "1/4 cup brown sugar",
+        "1 tbsp dark molasses",
+        "1/2 tbsp Worcestershire sauce",
+        "1/2 bottle dark beer",
+        "1 3/4 cup tomato sauce",
+        "1/2 tsp salt"
+      ],
+      steps: [
+        "Combine all ingredients and bring to the boil.",
+        "Simmer for 20 minutes."
+      ]
+    },
+    {
+      id: "spicy-chipotle-bbq-glaze",
+      title: "Spicy Chipotle BBQ Glaze",
+      section: "Sauces",
+      ingredients: [
+        "1ltr rice vinegar",
+        "1ltr cider vinegar",
+        "160g coriander seeds",
+        "80g whole cloves",
+        "30g allspice berries",
+        "250ml virgin olive oil",
+        "350g white onion",
+        "1 bulb roasted garlic",
+        "800g brown sugar",
+        "250g molasses",
+        "100ml Worcestershire sauce",
+        "4 bottles dark beer (Coopers)",
+        "500g chipotle chilli purée",
+        "2kg ketchup"
+      ],
+      steps: [
+        "Put vinegars in a saucepan with coriander, cloves and allspice. Boil and reduce by half. Strain and set aside.",
+        "Heat oil and sauté onion until caramelised. Add garlic and brown sugar, cook until sugar melts.",
+        "Add molasses and Worcestershire sauce, and deglaze the pan with the beer.",
+        "Add the vinegar mix and chilli purée to the pan. Simmer for 1 hour on low.",
+        "Add ketchup, cook a further 10 minutes, then strain, pushing down on the solids to extract all the juices."
+      ],
+      note: "Yield: approx 4kg."
+    },
+    {
+      id: "black-vinegar-dressing",
+      title: "Black Vinegar Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "300ml Chinese black vinegar",
+        "300ml ketjap manis",
+        "300ml soy sauce",
+        "50ml balsamic vinegar",
+        "1 clove garlic",
+        "1 coin ginger",
+        "50ml sesame oil"
+      ],
+      steps: [
+        "Grate ginger and garlic on a microplane.",
+        "Add remaining ingredients and whisk."
+      ]
+    },
+    {
+      id: "caesar-salad-dressing",
+      title: "Caesar Salad Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "Coddled egg yolks",
+        "Garlic cloves",
+        "10g cracked pepper",
+        "2 tsp celery salt",
+        "2 tsp Tabasco",
+        "5 tsp Worcestershire sauce",
+        "2 tsp Dijon mustard",
+        "100g anchovies",
+        "4lt vegetable oil",
+        "250ml red wine vinegar",
+        "100ml lemon juice",
+        "500g grated parmesan"
+      ],
+      steps: [
+        "Place all ingredients except the oil in the robot coupe and mix well.",
+        "Slowly add the oil until it reaches a mayonnaise consistency."
+      ]
+    },
+    {
+      id: "beef-marinade",
+      title: "Beef Marinade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "20 lime leaves",
+        "30 coriander roots",
+        "40 lemongrass stalks",
+        "20 chillies",
+        "60 cloves garlic",
+        "50ml fish sauce",
+        "50ml peanut oil",
+        "1000ml lime juice",
+        "200ml ginger juice",
+        "4 grated tamarind",
+        "30ml sesame oil",
+        "10 tbsp palm sugar"
+      ],
+      steps: [
+        "Method not recorded in the original file — combine and blend ingredients to marinade consistency, adjust to taste."
+      ],
+      note: "Original document only listed ingredients — method needs to be added from memory."
+    },
+    {
+      id: "brown-veal-stock",
+      title: "Brown Veal Stock",
+      section: "Stocks",
+      ingredients: [
+        "30kg veal bones",
+        "5kg carrots",
+        "5kg onions",
+        "4 bunches celery",
+        "5kg fresh tomatoes",
+        "6 leeks",
+        "4 heads garlic",
+        "10 bay leaves",
+        "20 peppercorns",
+        "1kg mushrooms",
+        "10lt red wine",
+        "2 bunches parsley stalks",
+        "1/2 bunch thyme"
+      ],
+      steps: [
+        "Brown the bones in a roasting dish, turning them several times. Roast the vegetables in separate trays.",
+        "Put the bones into a large deep pot, and add the roasted vegetables.",
+        "Deglaze the roasting trays with half the red wine and pour into the pot.",
+        "Add cold water and the remaining red wine, bring to the boil, and remove scum from the surface. Add herbs.",
+        "Simmer for 12 hours, then strain through a sieve."
+      ]
+    },
+    {
+      id: "chicken-stock",
+      title: "Chicken Stock",
+      section: "Stocks",
+      ingredients: [
+        "10kg chicken carcasses",
+        "1kg carrots",
+        "1kg onions",
+        "3 leeks",
+        "1 bunch celery",
+        "Fresh tomatoes",
+        "1 bunch parsley stalks",
+        "10 peppercorns",
+        "1 head garlic",
+        "2 bay leaves"
+      ],
+      steps: [
+        "Blanch the chicken carcasses, then put them in a large pot and cover with cold water.",
+        "Bring to the boil and clean all scum from the surface.",
+        "Add all the vegetables, then simmer for 3 hours.",
+        "Strain through a sieve, leave to cool, and remove the fat."
+      ]
+    },
+    {
+      id: "fish-stock",
+      title: "Fish Stock",
+      section: "Stocks",
+      ingredients: [
+        "10kg fish bones (snapper)",
+        "1kg onions",
+        "2 leeks",
+        "1 bunch celery",
+        "1 bunch parsley stalks",
+        "10 peppercorns",
+        "Fresh tomatoes",
+        "2 bay leaves"
+      ],
+      steps: [
+        "Wash and remove all blood from the fish bones. Put them into a large pot with cold water.",
+        "Bring to the boil and remove all scum from the surface.",
+        "Add all vegetables and simmer for 30 minutes.",
+        "Pass through a sieve, cool, and refrigerate."
+      ]
+    },
+    {
+      id: "court-bouillon",
+      title: "Court Bouillon",
+      section: "Stocks",
+      ingredients: [
+        "10lt water",
+        "1lt white wine",
+        "1lt white vinegar",
+        "1kg carrots",
+        "1kg onions",
+        "1/2 bunch celery",
+        "2 bay leaves",
+        "1 bunch parsley stalks",
+        "10 peppercorns",
+        "150g salt",
+        "3 cloves"
+      ],
+      steps: [
+        "Put all ingredients together in a large pot.",
+        "Bring to the boil and simmer for 10 minutes."
+      ]
+    },
+    {
+      id: "braised-red-cabbage",
+      title: "Braised Red Cabbage",
+      section: "Sides",
+      ingredients: [
+        "1 red cabbage",
+        "6 green apples",
+        "250g brown sugar",
+        "5g nutmeg",
+        "250g butter",
+        "250ml balsamic vinegar",
+        "50g dried figs",
+        "50g toasted almonds",
+        "5g cinnamon",
+        "2 red onions",
+        "Salt and pepper"
+      ],
+      steps: [
+        "Slice the red cabbage and place in a baking tray. Add diced green apple, onion, chopped figs and all remaining ingredients.",
+        "Mix well, cover with foil, and bake for approximately 1.5 hours or until the cabbage is soft."
+      ]
+    },
+    {
+      id: "baba-ghannouj",
+      title: "Baba Ghannouj",
+      section: "Sides",
+      ingredients: [
+        "1.5kg eggplant",
+        "125ml olive oil",
+        "120ml lemon juice",
+        "100g white onion",
+        "30g roast garlic",
+        "20g salt",
+        "300g tahini"
+      ],
+      steps: [
+        "Chargrill then roast the eggplant, and scoop out the pulp once cooked.",
+        "Blend with garlic, olive oil, tahini, onion and lemon juice.",
+        "Adjust for seasoning."
+      ],
+      note: "Yield: approx 1kg. Original file listed this ingredient as \"Tartoor\" — recorded here as tahini, confirm if that's a specific brand or product instead."
     }
   ];
 
   // ---- RECENTLY USED TRACKING ----
-  // Every time a recipe is opened, its id is saved to this browser's
-  // local storage. The 3 most recently opened show up by default.
-  // This is per-device — it won't sync between your phone and a kitchen tablet.
   const RECENT_KEY = "recipe-box-recent";
 
   function getRecentIds(){
@@ -340,7 +761,6 @@
     const found = ids
       .map(id => recipes.find(r => r.id === id))
       .filter(Boolean);
-    // fill remaining slots with the first un-used recipes so it's never empty
     if(found.length < 3){
       recipes.forEach(r => {
         if(found.length >= 3) return;
@@ -351,11 +771,29 @@
   }
 
   let query = "";
+  let activeSection = null;
+
+  const sections = [...new Set(recipes.map(r => r.section))];
+  const nav = document.getElementById('sectionNav');
+  sections.forEach(sec => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = sec;
+    btn.onclick = () => {
+      activeSection = activeSection === sec ? null : sec;
+      query = "";
+      document.getElementById('search').value = "";
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      if(activeSection) btn.classList.add('active');
+      render();
+    };
+    nav.appendChild(btn);
+  });
 
   function matches(r){
     const q = query.trim().toLowerCase();
     if(!q) return true;
-    const haystack = [r.title, ...r.ingredients].join(' ').toLowerCase();
+    const haystack = [r.title, r.section, ...r.ingredients].join(' ').toLowerCase();
     return haystack.includes(q);
   }
 
@@ -367,19 +805,24 @@
 
     const isSearching = query.trim().length > 0;
     let toShow;
+
     if(isSearching){
       toShow = recipes.filter(matches);
+      label.textContent = 'Results';
+    }else if(activeSection){
+      toShow = recipes.filter(r => r.section === activeSection).sort((a,b) => a.title.localeCompare(b.title));
+      label.textContent = activeSection;
     }else{
       toShow = getRecentRecipes();
+      label.textContent = 'Recently used';
     }
 
-    label.textContent = isSearching ? 'Results' : 'Recently used';
     empty.style.display = toShow.length ? 'none' : 'block';
 
     toShow.forEach(r => {
       const card = document.createElement('div');
       card.className = 'card';
-      card.innerHTML = `<h3>${r.title}</h3>`;
+      card.innerHTML = `<h3>${r.title}</h3><span class="card-section">${r.section}</span>`;
       card.onclick = () => openModal(r.id);
       list.appendChild(card);
     });
@@ -392,11 +835,13 @@
     const modal = document.getElementById('modal');
     modal.innerHTML = `
       <button class="modal-close" onclick="closeModal()">Close ✕</button>
+      <p class="modal-section">${r.section}</p>
       <h2>${r.title}</h2>
       <h4>Ingredients</h4>
       <ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
       <h4>Method</h4>
       <ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+      ${r.note ? `<p class="note">${r.note}</p>` : ''}
     `;
     document.getElementById('overlay').classList.add('open');
   }
@@ -412,6 +857,10 @@
 
   document.getElementById('search').addEventListener('input', (e) => {
     query = e.target.value;
+    if(query.trim()){
+      activeSection = null;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    }
     render();
   });
 
