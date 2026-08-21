@@ -226,11 +226,11 @@
 <script>
   // ---- YOUR RECIPES LIVE HERE ----
   // Copy a block below and edit it to add a new recipe.
-  // Order in this list doesn't matter for search — but the first 3 are
-  // shown by default as "recently used". Move a recipe to the top of
-  // this list when you want it to show up there.
+  // "id" must be unique for each recipe — it's how the site remembers
+  // which ones you've opened recently. Keep it short, lowercase, no spaces.
   const recipes = [
     {
+      id: "beurre-blanc",
       title: "Beurre Blanc",
       ingredients: [
         "100ml white wine vinegar",
@@ -247,6 +247,7 @@
       ]
     },
     {
+      id: "brown-stock",
       title: "Basic Brown Stock",
       ingredients: [
         "5kg beef or veal bones",
@@ -265,6 +266,7 @@
       ]
     },
     {
+      id: "pate-a-choux",
       title: "Pate a Choux",
       ingredients: [
         "250ml water",
@@ -283,6 +285,47 @@
     }
   ];
 
+  // ---- RECENTLY USED TRACKING ----
+  // Every time a recipe is opened, its id is saved to this browser's
+  // local storage. The 3 most recently opened show up by default.
+  // This is per-device — it won't sync between your phone and a kitchen tablet.
+  const RECENT_KEY = "recipe-box-recent";
+
+  function getRecentIds(){
+    try{
+      const raw = localStorage.getItem(RECENT_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function markUsed(id){
+    try{
+      let ids = getRecentIds().filter(x => x !== id);
+      ids.unshift(id);
+      ids = ids.slice(0, 10);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(ids));
+    }catch(e){
+      // storage unavailable — recently used just won't persist
+    }
+  }
+
+  function getRecentRecipes(){
+    const ids = getRecentIds();
+    const found = ids
+      .map(id => recipes.find(r => r.id === id))
+      .filter(Boolean);
+    // fill remaining slots with the first un-used recipes so it's never empty
+    if(found.length < 3){
+      recipes.forEach(r => {
+        if(found.length >= 3) return;
+        if(!found.includes(r)) found.push(r);
+      });
+    }
+    return found.slice(0, 3);
+  }
+
   let query = "";
 
   function matches(r){
@@ -299,8 +342,12 @@
     list.innerHTML = '';
 
     const isSearching = query.trim().length > 0;
-    let toShow = recipes.filter(matches);
-    if(!isSearching) toShow = toShow.slice(0, 3);
+    let toShow;
+    if(isSearching){
+      toShow = recipes.filter(matches);
+    }else{
+      toShow = getRecentRecipes();
+    }
 
     label.textContent = isSearching ? 'Results' : 'Recently used';
     empty.style.display = toShow.length ? 'none' : 'block';
@@ -309,13 +356,15 @@
       const card = document.createElement('div');
       card.className = 'card';
       card.innerHTML = `<h3>${r.title}</h3>`;
-      card.onclick = () => openModal(recipes.indexOf(r));
+      card.onclick = () => openModal(r.id);
       list.appendChild(card);
     });
   }
 
-  function openModal(idx){
-    const r = recipes[idx];
+  function openModal(id){
+    const r = recipes.find(x => x.id === id);
+    if(!r) return;
+    markUsed(id);
     const modal = document.getElementById('modal');
     modal.innerHTML = `
       <button class="modal-close" onclick="closeModal()">Close ✕</button>
@@ -330,6 +379,7 @@
 
   function closeModal(){
     document.getElementById('overlay').classList.remove('open');
+    render();
   }
 
   document.getElementById('overlay').addEventListener('click', (e) => {
