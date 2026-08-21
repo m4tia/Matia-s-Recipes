@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recipes</title>
+<style>
+
+  :root{
+    --paper: #F2EDE1;
+    --paper-card: #FBF8F1;
+    --ink: #2C2A22;
+    --ink-soft: #6B6555;
+    --line: #D9D0BB;
+    --rust: #A8461F;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding-bottom:4rem;
+  }
+
+  header{
+    max-width:700px;
+    margin:0 auto;
+    padding:3rem 1.5rem 1.5rem;
+    text-align:center;
+  }
+
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--rust);
+    font-weight:700;
+    margin:0 0 0.6rem;
+  }
+
+  h1{
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 3.4rem);
+    margin:0 0 0.5rem;
+    letter-spacing:-0.01em;
+  }
+
+  .sub{
+    color:var(--ink-soft);
+    font-size:15px;
+    max-width:420px;
+    margin:0 auto;
+    line-height:1.5;
+  }
+
+  .drawer{
+    max-width:700px;
+    margin:0 auto 2rem;
+    padding:0 1.5rem;
+  }
+
+  .drawer-label{
+    background:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 16px;
+    border-radius:6px;
+  }
+
+  .drawer-label svg{ flex-shrink:0; opacity:0.85; color:var(--paper); }
+
+  .drawer-label input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    color:var(--paper);
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size:15px;
+  }
+
+  .drawer-label input::placeholder{ color:rgba(242,237,225,0.55); }
+
+  .section-label{
+    max-width:700px;
+    margin:0 auto;
+    padding:0 1.5rem;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+
+  .list{
+    max-width:700px;
+    margin:0 auto;
+    padding:0 1.5rem;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .card{
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:16px 18px;
+    cursor:pointer;
+    transition:transform 0.12s ease, box-shadow 0.12s ease;
+  }
+
+  .card:hover{ transform:translateY(-1px); box-shadow:0 4px 12px rgba(44,42,34,0.08); }
+
+  .card h3{
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight:700;
+    font-size:18px;
+    margin:0;
+  }
+
+  .empty{
+    max-width:700px;
+    margin:2rem auto;
+    padding:0 1.5rem;
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+
+  .overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(44,42,34,0.45);
+    align-items:flex-start;
+    justify-content:center;
+    padding:4vh 1.5rem;
+    overflow-y:auto;
+    z-index:10;
+  }
+
+  .overlay.open{ display:flex; }
+
+  .modal{
+    background:var(--paper-card);
+    max-width:560px;
+    width:100%;
+    border-radius:6px;
+    padding:2rem 2rem 2.2rem;
+    position:relative;
+  }
+
+  .modal-close{
+    position:absolute;
+    top:14px;
+    right:14px;
+    background:none;
+    border:none;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    padding:6px 10px;
+  }
+
+  .modal-close:hover{ color:var(--ink); }
+
+  .modal h2{
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0 0 20px;
+    padding-right:2rem;
+  }
+
+  .modal h4{
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--rust);
+    margin:22px 0 8px;
+  }
+
+  .modal ul{ margin:0; padding-left:1.15rem; }
+  .modal li{ margin-bottom:6px; line-height:1.5; font-size:14.5px; }
+  .modal ol{ margin:0; padding-left:1.2rem; }
+  .modal ol li{ margin-bottom:10px; line-height:1.55; font-size:14.5px; }
+
+  @media (max-width:480px){
+    .modal{ padding:1.5rem 1.4rem 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">A working kitchen index</p>
+  <h1>Recipes</h1>
+  <p class="sub">Search by name, ingredient, or tag. Tap a card to open the full recipe.</p>
+</header>
+
+<div class="drawer">
+  <div class="drawer-label">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input id="search" type="text" placeholder="Search recipes…" autocomplete="off">
+  </div>
+</div>
+
+<p class="section-label" id="listLabel">Recently used</p>
+<div class="list" id="list"></div>
+<p class="empty" id="emptyMsg" style="display:none;">No recipes match that search.</p>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+  // ---- YOUR RECIPES LIVE HERE ----
+  // Copy a block below and edit it to add a new recipe.
+  // Order in this list doesn't matter for search — but the first 3 are
+  // shown by default as "recently used". Move a recipe to the top of
+  // this list when you want it to show up there.
+  const recipes = [
+    {
+      title: "Beurre Blanc",
+      ingredients: [
+        "100ml white wine vinegar",
+        "50ml dry white wine",
+        "2 shallots, finely diced",
+        "250g cold butter, cubed",
+        "Salt to taste"
+      ],
+      steps: [
+        "Reduce vinegar, wine and shallots until nearly dry.",
+        "Lower heat, whisk in cold butter a few cubes at a time.",
+        "Season with salt, strain if a smooth finish is needed.",
+        "Hold warm off direct heat — do not boil."
+      ]
+    },
+    {
+      title: "Basic Brown Stock",
+      ingredients: [
+        "5kg beef or veal bones",
+        "2 onions, halved",
+        "2 carrots, chopped",
+        "2 celery stalks, chopped",
+        "Tomato paste",
+        "Water to cover"
+      ],
+      steps: [
+        "Roast bones at 220°C until deeply browned.",
+        "Roast vegetables until caramelized.",
+        "Combine in a stockpot, deglaze roasting pan, add to pot.",
+        "Cover with water, simmer 8-12 hours, skimming regularly.",
+        "Strain and cool."
+      ]
+    },
+    {
+      title: "Pate a Choux",
+      ingredients: [
+        "250ml water",
+        "100g butter",
+        "150g flour",
+        "4 eggs",
+        "Pinch of salt"
+      ],
+      steps: [
+        "Bring water, butter and salt to a boil.",
+        "Add flour off heat, stir until dough pulls from sides.",
+        "Cook 1-2 minutes to dry out, then cool slightly.",
+        "Beat in eggs one at a time until glossy.",
+        "Pipe and bake at 200°C until puffed and golden."
+      ]
+    }
+  ];
+
+  let query = "";
+
+  function matches(r){
+    const q = query.trim().toLowerCase();
+    if(!q) return true;
+    const haystack = [r.title, ...r.ingredients].join(' ').toLowerCase();
+    return haystack.includes(q);
+  }
+
+  function render(){
+    const list = document.getElementById('list');
+    const empty = document.getElementById('emptyMsg');
+    const label = document.getElementById('listLabel');
+    list.innerHTML = '';
+
+    const isSearching = query.trim().length > 0;
+    let toShow = recipes.filter(matches);
+    if(!isSearching) toShow = toShow.slice(0, 3);
+
+    label.textContent = isSearching ? 'Results' : 'Recently used';
+    empty.style.display = toShow.length ? 'none' : 'block';
+
+    toShow.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>${r.title}</h3>`;
+      card.onclick = () => openModal(recipes.indexOf(r));
+      list.appendChild(card);
+    });
+  }
+
+  function openModal(idx){
+    const r = recipes[idx];
+    const modal = document.getElementById('modal');
+    modal.innerHTML = `
+      <button class="modal-close" onclick="closeModal()">Close ✕</button>
+      <h2>${r.title}</h2>
+      <h4>Ingredients</h4>
+      <ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+      <h4>Method</h4>
+      <ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+    `;
+    document.getElementById('overlay').classList.add('open');
+  }
+
+  function closeModal(){
+    document.getElementById('overlay').classList.remove('open');
+  }
+
+  document.getElementById('overlay').addEventListener('click', (e) => {
+    if(e.target.id === 'overlay') closeModal();
+  });
+
+  document.getElementById('search').addEventListener('input', (e) => {
+    query = e.target.value;
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
