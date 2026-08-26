@@ -231,3 +231,1111 @@
     font-size:26px;
     margin:0 0 20px;
     padding-right:2rem;
+  }
+
+  .modal h4{
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--rust);
+    margin:22px 0 8px;
+  }
+
+  .modal ul{ margin:0; padding-left:1.15rem; }
+  .modal li{ margin-bottom:6px; line-height:1.5; font-size:14.5px; }
+  .modal ol{ margin:0; padding-left:1.2rem; }
+  .modal ol li{ margin-bottom:10px; line-height:1.55; font-size:14.5px; }
+  .modal .note{ font-size:13px; color:var(--ink-soft); margin-top:16px; line-height:1.5; }
+
+  @media (max-width:480px){
+    .modal{ padding:1.5rem 1.4rem 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">A working kitchen index</p>
+  <h1>RECIPES</h1>
+</header>
+
+<div class="drawer">
+  <div class="drawer-label">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <input id="search" type="text" placeholder="Search recipes…" autocomplete="off">
+  </div>
+</div>
+
+<div class="section-nav" id="sectionNav"></div>
+
+<p class="section-label" id="listLabel">Recently used</p>
+<div class="list" id="list"></div>
+<p class="empty" id="emptyMsg" style="display:none;">No recipes match that search.</p>
+
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+  // ---- YOUR RECIPES LIVE HERE ----
+  // Copy a block below and edit it to add a new recipe.
+  // "id" must be unique — lowercase, no spaces, used to track recently used.
+  // "section" controls which section button groups it under.
+  // "note" is optional — only use it for something actually written in
+  // the original recipe (like a stated yield), not your own comments.
+  const recipes = [
+    {
+      id: "capsicum-dressing",
+      title: "Char-Grilled Capsicum Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "3 medium red capsicum",
+        "30g anchovies",
+        "1 garlic clove",
+        "40g roasted pinenuts",
+        "2 large ripe tomatoes, peeled, seeded and chopped",
+        "50g fresh breadcrumbs",
+        "50ml red wine vinegar",
+        "30g capers",
+        "1 tbsp chopped fresh marjoram",
+        "200ml olive oil"
+      ],
+      steps: [
+        "Scorch red capsicums over an open flame until the skin is completely black.",
+        "Place in a bowl and cover with clingfilm, rest for 10 minutes.",
+        "Peel the capsicum under cold water, then purée in a food processor.",
+        "Add anchovies, chopped garlic, pinenuts and breadcrumbs to form a paste.",
+        "Finish the dressing by adding the tomato, herbs, capers, olive oil and red wine vinegar."
+      ],
+      note: "Serve with salads, white meats or seafood."
+    },
+    {
+      id: "chermoula",
+      title: "Chermoula",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "1 tsp cumin",
+        "1 tsp paprika",
+        "1/2 tsp turmeric",
+        "1/2 tsp cayenne",
+        "Garlic cloves",
+        "1/4 cup grated onion",
+        "1 tsp salt",
+        "1 tsp pepper",
+        "1/4 cup coriander",
+        "1/4 cup parsley",
+        "Lemon juice",
+        "3 tbsp oil"
+      ],
+      steps: [
+        "Toast the spices and chop the herbs and garlic.",
+        "Add to the remaining ingredients and combine."
+      ]
+    },
+    {
+      id: "chilli-caramel-dressing",
+      title: "Chilli-Caramel Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "500g palm sugar",
+        "250ml fish sauce",
+        "250ml lime juice",
+        "2 sticks lemongrass",
+        "Chilli",
+        "Lime leaves",
+        "2 cloves garlic",
+        "200g ginger",
+        "1 bunch coriander roots",
+        "100ml vegetable oil"
+      ],
+      steps: [
+        "Place the sugar in a pot with a little water and caramelise.",
+        "Add fish sauce, stir, then add remaining ingredients.",
+        "Let cool, then add the lime juice."
+      ]
+    },
+    {
+      id: "coriander-pesto",
+      title: "Coriander and Coconut Pesto",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "2 cups toasted coconut",
+        "800ml coconut cream",
+        "8 bunches coriander",
+        "3 bunches mint",
+        "Chillies",
+        "10 cloves garlic",
+        "100ml lemon juice"
+      ],
+      steps: [
+        "Place all ingredients in the robot coupe and mix until smooth."
+      ],
+      note: "For Goanese tuna."
+    },
+    {
+      id: "creole-remoulade",
+      title: "Cayenne Creole Remoulade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "3.75kg mayonnaise",
+        "1.5kg tomato purée",
+        "125g chilli powder",
+        "125g cayenne chilli",
+        "125ml Tabasco sauce",
+        "250g whole grain mustard",
+        "500ml fresh lemon juice",
+        "250g parsley leaves",
+        "25g rinsed capers",
+        "1.25kg scallions, green and white parts",
+        "50g anchovies",
+        "1 bulb garlic",
+        "250g Worcestershire sauce"
+      ],
+      steps: [
+        "Thoroughly mix all ingredients together in a food processor until thick."
+      ],
+      note: "Yield: 6kg."
+    },
+    {
+      id: "cucumber-pickles",
+      title: "Cucumber Pickles",
+      section: "Sides",
+      ingredients: [
+        "Green capsicum",
+        "Red capsicum",
+        "Spanish onions",
+        "4lt vinegar",
+        "50g cracked black pepper",
+        "4 chillies",
+        "2kg cucumbers",
+        "250g sugar",
+        "1 bunch dill"
+      ],
+      steps: [
+        "Slice the cucumbers, Spanish onions and capsicum and place in a sealable jar.",
+        "Bring the remaining ingredients to the boil, then pour over the cucumbers.",
+        "Let stand for 2 weeks before using."
+      ]
+    },
+    {
+      id: "daahl",
+      title: "Daahl",
+      section: "Sides",
+      ingredients: [
+        "500g red lentils",
+        "1250g butter",
+        "7 chillies",
+        "30 garlic cloves",
+        "Salt and pepper"
+      ],
+      steps: [
+        "Boil the lentils until all the water has evaporated and they're thoroughly cooked.",
+        "Slowly clarify the butter with garlic and chillies until both are falling apart.",
+        "Whisk the butter mixture into the lentils like a mayonnaise."
+      ]
+    },
+    {
+      id: "cajun-spice-mix",
+      title: "Cajun Spice Mix",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "4 cups cayenne",
+        "4 cups sweet paprika",
+        "1 cup smoked paprika",
+        "1 cup chopped thyme",
+        "1 cup chopped rosemary",
+        "1 cup dried oregano",
+        "1 cup black pepper",
+        "1 cup ground coriander",
+        "1 cup ground cumin",
+        "2 cups celery salt",
+        "1 cup garlic powder",
+        "1 cup onion powder"
+      ],
+      steps: []
+    },
+    {
+      id: "coleslaw-dressing",
+      title: "Coleslaw Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "6 cups sugar",
+        "9 cups white vinegar",
+        "3/4 cup celery seeds",
+        "1.5 cups horseradish",
+        "3lt oil",
+        "1 cup mustard seeds"
+      ],
+      steps: []
+    },
+    {
+      id: "crouton-dressing",
+      title: "Crouton Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "500ml olive oil",
+        "1 tbsp salt",
+        "2 tbsp pepper",
+        "250g parmesan"
+      ],
+      steps: []
+    },
+    {
+      id: "cafe-de-paris-beurre",
+      title: "Café de Paris Beurre",
+      section: "Sauces",
+      ingredients: [
+        "750g unsalted butter",
+        "1/2 bunch parsley",
+        "1/2 bunch tarragon",
+        "1/2 bunch chives",
+        "200g capers",
+        "200g gherkins",
+        "100g olives",
+        "50g anchovies",
+        "1 red onion",
+        "6 cloves garlic",
+        "200g Dijon mustard",
+        "2 lemons, zest and juice",
+        "4 egg yolks"
+      ],
+      steps: [
+        "Chop all ingredients except the butter fine, then add to the butter.",
+        "Mix well, then roll into long sausage-shaped lengths in greaseproof paper.",
+        "Let cool, slice, and place on top of meats."
+      ]
+    },
+    {
+      id: "anchovy-butter",
+      title: "Anchovy Butter",
+      section: "Sauces",
+      ingredients: [
+        "750g butter, soft",
+        "3 cloves garlic",
+        "100g anchovies",
+        "1/2 bunch parsley",
+        "2 lemons, juiced",
+        "1/2 bunch tarragon"
+      ],
+      steps: [
+        "Combine all ingredients and wrap in parchment paper to form a cylinder shape.",
+        "Refrigerate and slice as needed."
+      ]
+    },
+    {
+      id: "bearnaise-sauce",
+      title: "Bearnaise Sauce",
+      section: "Sauces",
+      ingredients: [
+        "400ml tarragon vinegar",
+        "200ml white wine",
+        "100g eschallot",
+        "6 peppercorns",
+        "10 egg yolks",
+        "1kg unsalted butter",
+        "1/2 bunch tarragon",
+        "1/2 bunch chervil",
+        "Maldon salt"
+      ],
+      steps: [
+        "Clarify the butter.",
+        "In a saucepan, combine vinegar, eschallot, peppercorns and white wine. Reduce by half.",
+        "Cool the saucepan, add egg yolks, and beat over a double boiler until the mixture thickens to ribbon stage.",
+        "Incorporate the butter, add chopped tarragon and chervil, and check the seasoning."
+      ]
+    },
+    {
+      id: "hollandaise-sauce",
+      title: "Hollandaise Sauce",
+      section: "Sauces",
+      ingredients: [
+        "300ml white wine",
+        "200ml white vinegar",
+        "80g eschallots",
+        "6 peppercorns",
+        "10 egg yolks",
+        "1kg unsalted butter",
+        "Lemon juice and salt"
+      ],
+      steps: [
+        "In a saucepan, combine vinegar, white wine, eschallot and peppercorns. Bring to the boil, then reduce by half.",
+        "Add egg yolks and beat over a double boiler until thick and creamy.",
+        "Incorporate the clarified butter, add lemon juice, and check the seasoning."
+      ],
+      note: "Variances — Sauce Mousseline: hollandaise + whipped cream. Sauce Maltaise: hollandaise + reduced orange juice + blanched orange zest. Sauce Moutarde: hollandaise + Dijon mustard."
+    },
+    {
+      id: "beurre-blanc",
+      title: "Beurre Blanc",
+      section: "Sauces",
+      ingredients: [
+        "200ml white wine",
+        "200ml white vinegar",
+        "50g eschallots",
+        "6 peppercorns",
+        "100ml pouring cream",
+        "500g unsalted butter",
+        "2 sprigs thyme",
+        "1 bay leaf",
+        "Lemon juice and salt"
+      ],
+      steps: [
+        "Make a reduction with white wine, vinegar, eschallot, thyme and bay leaf. Reduce by half.",
+        "Add cream and bring to the boil.",
+        "Add butter gradually, then strain through a sieve.",
+        "Season with salt and lemon juice."
+      ]
+    },
+    {
+      id: "white-fish-cream-sauce",
+      title: "White Fish Cream Sauce",
+      section: "Sauces",
+      ingredients: [
+        "50g eschallot",
+        "1lt white wine",
+        "4 sprigs thyme",
+        "1 bay leaf",
+        "6 peppercorns",
+        "2lt fish stock",
+        "100g mushroom trimmings",
+        "2lt pouring cream",
+        "Celery sticks",
+        "1 leek"
+      ],
+      steps: [
+        "In a saucepan, fry off eschallots, leek, celery and mushrooms.",
+        "Add white wine, thyme, bay leaf and peppercorns, and reduce by half.",
+        "Add fish stock and reduce by half again.",
+        "Add cream and reduce until desired thickness, then pass through a sieve and season."
+      ]
+    },
+    {
+      id: "bisque-sauce",
+      title: "Bisque Sauce",
+      section: "Sauces",
+      ingredients: [
+        "6kg raw lobster heads",
+        "500ml olive oil",
+        "500g carrots",
+        "4 onions",
+        "4 sticks celery",
+        "2kg fresh tomatoes",
+        "500g tomato paste",
+        "400ml brandy",
+        "500ml white wine",
+        "4lt fish stock",
+        "2 heads garlic",
+        "10 peppercorns"
+      ],
+      steps: [
+        "In a large saucepan, fry crushed lobster heads in olive oil until the shells colour. Remove the shells.",
+        "Add vegetables cut into mirepoix and sweat them. Add garlic, peppercorns, tomatoes and tomato paste.",
+        "Put the shells back in, then flambé with brandy.",
+        "Add white wine, bring to the boil. Add fish stock, bring to the boil again, and remove scum from the surface.",
+        "Reduce to the desired consistency."
+      ]
+    },
+    {
+      id: "satay-sauce",
+      title: "Satay Sauce",
+      section: "Sauces",
+      ingredients: [
+        "100g onions, chopped",
+        "4 cloves garlic",
+        "1 coin ginger",
+        "60g brown sugar",
+        "200g peanut butter",
+        "400ml coconut milk",
+        "1 bunch coriander roots",
+        "100g Thai curry paste",
+        "100g toasted peanuts",
+        "50ml fish sauce",
+        "50ml lime juice"
+      ],
+      steps: [
+        "Fry off onion, garlic, ginger and coriander roots.",
+        "Add curry paste and sugar, cook out for 5 minutes.",
+        "Add remaining ingredients and simmer for 30 minutes.",
+        "Purée until smooth."
+      ]
+    },
+    {
+      id: "bread-sauce",
+      title: "Bread Sauce",
+      section: "Sauces",
+      ingredients: [
+        "Sliced white bread, crusts off",
+        "1 clove garlic",
+        "Salt, pepper and sugar",
+        "250ml vegetable oil",
+        "200ml milk"
+      ],
+      steps: [
+        "Place bread in a bowl and cover with milk until absorbed. Squeeze out excess milk.",
+        "Place in the robot coupe and purée with garlic, sugar, salt and pepper until fine.",
+        "Slowly add the oil as if making mayonnaise."
+      ]
+    },
+    {
+      id: "garlic-bbq-glaze",
+      title: "Garlic BBQ Glaze",
+      section: "Sauces",
+      ingredients: [
+        "1/2 cup rice vinegar",
+        "1/2 cup cider vinegar",
+        "1 tbsp coriander seeds",
+        "1/2 tbsp whole cloves",
+        "3 allspice berries",
+        "2 tbsp virgin olive oil",
+        "1/2 white onion",
+        "10 cloves garlic",
+        "1/4 cup brown sugar",
+        "1 tbsp dark molasses",
+        "1/2 tbsp Worcestershire sauce",
+        "1/2 bottle dark beer",
+        "1 3/4 cup tomato sauce",
+        "1/2 tsp salt"
+      ],
+      steps: [
+        "Combine all ingredients and bring to the boil.",
+        "Simmer for 20 minutes."
+      ]
+    },
+    {
+      id: "spicy-chipotle-bbq-glaze",
+      title: "Spicy Chipotle BBQ Glaze",
+      section: "Sauces",
+      ingredients: [
+        "1ltr rice vinegar",
+        "1ltr cider vinegar",
+        "160g coriander seeds",
+        "80g whole cloves",
+        "30g allspice berries",
+        "250ml virgin olive oil",
+        "350g white onion",
+        "1 bulb roasted garlic",
+        "800g brown sugar",
+        "250g molasses",
+        "100ml Worcestershire sauce",
+        "4 bottles dark beer (Coopers)",
+        "500g chipotle chilli purée",
+        "2kg ketchup"
+      ],
+      steps: [
+        "Put vinegars in a saucepan with coriander, cloves and allspice. Boil and reduce by half. Strain and set aside.",
+        "Heat oil and sauté onion until caramelised. Add garlic and brown sugar, cook until sugar melts.",
+        "Add molasses and Worcestershire sauce, and deglaze the pan with the beer.",
+        "Add the vinegar mix and chilli purée to the pan. Simmer for 1 hour on low.",
+        "Add ketchup, cook a further 10 minutes, then strain, pushing down on the solids to extract all the juices."
+      ],
+      note: "Yield: approx 4kg."
+    },
+    {
+      id: "black-vinegar-dressing",
+      title: "Black Vinegar Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "300ml Chinese black vinegar",
+        "300ml ketjap manis",
+        "300ml soy sauce",
+        "50ml balsamic vinegar",
+        "1 clove garlic",
+        "1 coin ginger",
+        "50ml sesame oil"
+      ],
+      steps: [
+        "Grate ginger and garlic on a microplane.",
+        "Add remaining ingredients and whisk."
+      ]
+    },
+    {
+      id: "caesar-salad-dressing",
+      title: "Caesar Salad Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "Coddled egg yolks",
+        "Garlic cloves",
+        "10g cracked pepper",
+        "2 tsp celery salt",
+        "2 tsp Tabasco",
+        "5 tsp Worcestershire sauce",
+        "2 tsp Dijon mustard",
+        "100g anchovies",
+        "4lt vegetable oil",
+        "250ml red wine vinegar",
+        "100ml lemon juice",
+        "500g grated parmesan"
+      ],
+      steps: [
+        "Place all ingredients except the oil in the robot coupe and mix well.",
+        "Slowly add the oil until it reaches a mayonnaise consistency."
+      ]
+    },
+    {
+      id: "beef-marinade",
+      title: "Beef Marinade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "20 lime leaves",
+        "30 coriander roots",
+        "40 lemongrass stalks",
+        "20 chillies",
+        "60 cloves garlic",
+        "50ml fish sauce",
+        "50ml peanut oil",
+        "1000ml lime juice",
+        "200ml ginger juice",
+        "4 grated tamarind",
+        "30ml sesame oil",
+        "10 tbsp palm sugar"
+      ],
+      steps: []
+    },
+    {
+      id: "brown-veal-stock",
+      title: "Brown Veal Stock",
+      section: "Stocks",
+      ingredients: [
+        "30kg veal bones",
+        "5kg carrots",
+        "5kg onions",
+        "4 bunches celery",
+        "5kg fresh tomatoes",
+        "6 leeks",
+        "4 heads garlic",
+        "10 bay leaves",
+        "20 peppercorns",
+        "1kg mushrooms",
+        "10lt red wine",
+        "2 bunches parsley stalks",
+        "1/2 bunch thyme"
+      ],
+      steps: [
+        "Brown the bones in a roasting dish, turning them several times. Roast the vegetables in separate trays.",
+        "Put the bones into a large deep pot, and add the roasted vegetables.",
+        "Deglaze the roasting trays with half the red wine and pour into the pot.",
+        "Add cold water and the remaining red wine, bring to the boil, and remove scum from the surface. Add herbs.",
+        "Simmer for 12 hours, then strain through a sieve."
+      ]
+    },
+    {
+      id: "chicken-stock",
+      title: "Chicken Stock",
+      section: "Stocks",
+      ingredients: [
+        "10kg chicken carcasses",
+        "1kg carrots",
+        "1kg onions",
+        "3 leeks",
+        "1 bunch celery",
+        "Fresh tomatoes",
+        "1 bunch parsley stalks",
+        "10 peppercorns",
+        "1 head garlic",
+        "2 bay leaves"
+      ],
+      steps: [
+        "Blanch the chicken carcasses, then put them in a large pot and cover with cold water.",
+        "Bring to the boil and clean all scum from the surface.",
+        "Add all the vegetables, then simmer for 3 hours.",
+        "Strain through a sieve, leave to cool, and remove the fat."
+      ]
+    },
+    {
+      id: "fish-stock",
+      title: "Fish Stock",
+      section: "Stocks",
+      ingredients: [
+        "10kg fish bones (snapper)",
+        "1kg onions",
+        "2 leeks",
+        "1 bunch celery",
+        "1 bunch parsley stalks",
+        "10 peppercorns",
+        "Fresh tomatoes",
+        "2 bay leaves"
+      ],
+      steps: [
+        "Wash and remove all blood from the fish bones. Put them into a large pot with cold water.",
+        "Bring to the boil and remove all scum from the surface.",
+        "Add all vegetables and simmer for 30 minutes.",
+        "Pass through a sieve, cool, and refrigerate."
+      ]
+    },
+    {
+      id: "court-bouillon",
+      title: "Court Bouillon",
+      section: "Stocks",
+      ingredients: [
+        "10lt water",
+        "1lt white wine",
+        "1lt white vinegar",
+        "1kg carrots",
+        "1kg onions",
+        "1/2 bunch celery",
+        "2 bay leaves",
+        "1 bunch parsley stalks",
+        "10 peppercorns",
+        "150g salt",
+        "3 cloves"
+      ],
+      steps: [
+        "Put all ingredients together in a large pot.",
+        "Bring to the boil and simmer for 10 minutes."
+      ]
+    },
+    {
+      id: "braised-red-cabbage",
+      title: "Braised Red Cabbage",
+      section: "Sides",
+      ingredients: [
+        "1 red cabbage",
+        "6 green apples",
+        "250g brown sugar",
+        "5g nutmeg",
+        "250g butter",
+        "250ml balsamic vinegar",
+        "50g dried figs",
+        "50g toasted almonds",
+        "5g cinnamon",
+        "2 red onions",
+        "Salt and pepper"
+      ],
+      steps: [
+        "Slice the red cabbage and place in a baking tray. Add diced green apple, onion, chopped figs and all remaining ingredients.",
+        "Mix well, cover with foil, and bake for approximately 1.5 hours or until the cabbage is soft."
+      ]
+    },
+    {
+      id: "baba-ghannouj",
+      title: "Baba Ghannouj",
+      section: "Sides",
+      ingredients: [
+        "1.5kg eggplant",
+        "125ml olive oil",
+        "120ml lemon juice",
+        "100g white onion",
+        "30g roast garlic",
+        "20g salt",
+        "300g tahini"
+      ],
+      steps: [
+        "Chargrill then roast the eggplant, and scoop out the pulp once cooked.",
+        "Blend with garlic, olive oil, tahini, onion and lemon juice.",
+        "Adjust for seasoning."
+      ],
+      note: "Yield: approx 1kg."
+    },
+    {
+      id: "fajita-chicken-marinade",
+      title: "Fajita Chicken Marinade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "4 cups orange juice",
+        "3 cups lime juice",
+        "1 tbsp dried oregano",
+        "2 tsp cumin",
+        "1 tsp cloves",
+        "1 tsp cinnamon",
+        "250g achiote paste",
+        "120g garlic",
+        "Salt"
+      ],
+      steps: []
+    },
+    {
+      id: "faux-soy-balsamic-caviar",
+      title: "Faux Soy and Balsamic Caviar",
+      section: "Sides",
+      ingredients: [
+        "200g tapioca",
+        "Soy and balsamic dressing, to taste",
+        "Oil"
+      ],
+      steps: [
+        "Cook the tapioca until you can just see the centre.",
+        "Drain and rinse with cold water until completely cold, then drain again.",
+        "Make a soy and balsamic dressing to taste and soak the tapioca in it — it will take on the colour.",
+        "Add a little oil to break the tapioca into individual pearls."
+      ]
+    },
+    {
+      id: "fig-tapenade",
+      title: "Fig Tapenade",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "250g black olives, pitted",
+        "250g dried black figs",
+        "Anchovies",
+        "30g capers",
+        "Lemon juice",
+        "Balsamic vinegar and olive oil, to combine"
+      ],
+      steps: [
+        "Place all ingredients in the robot coupe and mix until smooth."
+      ]
+    },
+    {
+      id: "fried-sweet-corn-cakes",
+      title: "Fried Sweet Corn Cakes",
+      section: "Sides",
+      ingredients: [
+        "6 cobs sweet corn",
+        "4 cloves garlic",
+        "4 eschallots",
+        "1 bunch coriander roots",
+        "250g plain flour",
+        "2 chillies",
+        "2 lime leaves",
+        "White pepper and salt",
+        "6 eggs"
+      ],
+      steps: [
+        "Purée two-thirds of the corn kernels, then add the eschallots, chilli, garlic, coriander roots and finely chopped lime leaves.",
+        "Add the remaining corn kernels, eggs and flour, and whisk until smooth.",
+        "Cook in blini pans or on a grill plate in a little clarified butter."
+      ]
+    },
+    {
+      id: "ginger-dressing",
+      title: "Ginger Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "100ml ginger purée",
+        "200ml fish sauce",
+        "400ml lemon juice",
+        "400ml rice wine vinegar",
+        "800ml oil",
+        "400ml soy sauce",
+        "200ml Pernod",
+        "200ml sesame oil"
+      ],
+      steps: []
+    },
+    {
+      id: "gravlax-mixture",
+      title: "Gravlax Mixture",
+      section: "Sides",
+      ingredients: [
+        "1 bunch dill",
+        "3/4 cup brown sugar",
+        "1/2 cup sea salt"
+      ],
+      steps: []
+    },
+    {
+      id: "green-mustard",
+      title: "Green Mustard",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "4 bunches coriander",
+        "4 garlic cloves",
+        "1 knob ginger",
+        "2 chillies",
+        "2 tbsp honey",
+        "500g Dijon mustard"
+      ],
+      steps: []
+    },
+    {
+      id: "green-paw-paw-relish",
+      title: "Green Paw Paw Relish",
+      section: "Sides",
+      ingredients: [
+        "1 green paw paw",
+        "2 chillies",
+        "1 Spanish onion",
+        "1 bunch coriander",
+        "3 limes, juiced",
+        "2 cloves garlic",
+        "1 knob ginger",
+        "1/2 bunch mint"
+      ],
+      steps: []
+    },
+    {
+      id: "harissa",
+      title: "Harissa",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "75g chilli",
+        "100ml water",
+        "2 cloves garlic",
+        "2 tsp cumin seeds, roasted and ground",
+        "1/4 tsp caraway seeds, roasted and ground",
+        "1 tsp salt",
+        "50ml tomato purée",
+        "60ml oil"
+      ],
+      steps: []
+    },
+    {
+      id: "hot-sour-salty-sweet-sauce",
+      title: "Hot, Sour, Salty and Sweet Sauce",
+      section: "Sauces",
+      ingredients: [
+        "1.5 cups palm sugar",
+        "100ml fish sauce",
+        "1/2 cup julienned ginger",
+        "10 small chillies",
+        "2 tbsp lime juice",
+        "8 shallots",
+        "1 bunch coriander"
+      ],
+      steps: []
+    },
+    {
+      id: "hot-and-sour-coconut-sauce",
+      title: "Hot and Sour Coconut Sauce",
+      section: "Sauces",
+      ingredients: [
+        "2 tsp coriander seeds",
+        "1/2 tsp cumin seeds",
+        "1/2 tsp fenugreek seeds",
+        "1/2 tsp Sichuan peppercorns",
+        "1/2 tsp white peppercorns",
+        "Chillies",
+        "2 tsp dried prawns",
+        "50ml vegetable oil",
+        "Onion",
+        "5 cloves garlic",
+        "1 tbsp ginger",
+        "1 tsp galangal",
+        "4 lime leaves",
+        "Stalk lemongrass",
+        "1 cinnamon stick",
+        "2 tsp turmeric",
+        "2 tsp cardamom",
+        "200g tom yum paste",
+        "Limes, juiced",
+        "250g sugar",
+        "150ml tomato purée",
+        "1.6lt coconut milk",
+        "350ml tamarind liquid",
+        "2lt stock"
+      ],
+      steps: [
+        "Combine the coriander seeds, cumin, fenugreek, Sichuan pepper, white pepper and prawns, and pound in a mortar and pestle.",
+        "Fry in vegetable oil with the onion, garlic, ginger, lime leaves, lemongrass, cinnamon, turmeric and cardamom for 5 minutes or until fragrant.",
+        "Add the tomato purée, coconut milk, tamarind, lime juice, tom yum paste and stock.",
+        "Simmer for 1 hour, then strain."
+      ]
+    },
+    {
+      id: "hot-and-sour-szechuan-dressing",
+      title: "Hot and Sour Szechuan Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "4 cloves garlic",
+        "2 knobs ginger",
+        "4 tbsp sesame paste",
+        "4 tbsp soy sauce",
+        "8 tbsp Chinese black vinegar",
+        "4 chillies",
+        "4 tbsp sesame oil",
+        "4 tbsp vegetable oil",
+        "4 tsp caster sugar",
+        "4 tsp roasted and ground Szechuan pepper"
+      ],
+      steps: []
+    },
+    {
+      id: "kim-chee",
+      title: "Kim Chee",
+      section: "Sides",
+      ingredients: [
+        "Cabbage",
+        "1 bunch shallots",
+        "Knobs ginger",
+        "Cloves garlic",
+        "20g chilli powder",
+        "30g prawn paste",
+        "30ml fish sauce",
+        "250ml rice wine vinegar"
+      ],
+      steps: [
+        "Heat all ingredients except the cabbage.",
+        "Pour over the chopped cabbage and let stand for 1 week."
+      ]
+    },
+    {
+      id: "laksa-paste",
+      title: "Laksa Paste",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "2 tsp shrimp paste",
+        "2 onions",
+        "4 cloves garlic",
+        "1 tsp lime juice",
+        "1 lemongrass",
+        "1 tsp galangal",
+        "1 tsp turmeric",
+        "4 chillies",
+        "1 tsp dried prawns, roasted and ground",
+        "300g coriander roots",
+        "1 tbsp coriander leaves",
+        "120ml vegetable oil"
+      ],
+      steps: []
+    },
+    {
+      id: "green-curry-paste",
+      title: "Green Curry Paste",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "1 tsp black peppercorns",
+        "2 tsp cumin seeds",
+        "1 tsp coriander seeds",
+        "6 cloves garlic",
+        "6 shallots",
+        "8 stalks lemongrass",
+        "2 tbsp galangal",
+        "1/2 bunch coriander roots",
+        "1 lime, zested",
+        "3 tbsp shrimp paste",
+        "12 green chillies"
+      ],
+      steps: [
+        "Roast the peppercorns, cumin and coriander seeds in a pan until fragrant, then grind in a spice grinder.",
+        "In a mortar and pestle, pound the garlic, lemongrass, galangal, coriander roots, lime zest and shrimp paste.",
+        "Combine all ingredients in a food processor and mix until a fine paste, adding a little oil to aid in the mixing."
+      ]
+    }
+  ];
+
+  // ---- RECENTLY USED TRACKING ----
+  const RECENT_KEY = "recipe-box-recent";
+
+  function getRecentIds(){
+    try{
+      const raw = localStorage.getItem(RECENT_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){
+      return [];
+    }
+  }
+
+  function markUsed(id){
+    try{
+      let ids = getRecentIds().filter(x => x !== id);
+      ids.unshift(id);
+      ids = ids.slice(0, 10);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(ids));
+    }catch(e){
+      // storage unavailable — recently used just won't persist
+    }
+  }
+
+  function getRecentRecipes(){
+    const ids = getRecentIds();
+    const found = ids
+      .map(id => recipes.find(r => r.id === id))
+      .filter(Boolean);
+    if(found.length < 3){
+      recipes.forEach(r => {
+        if(found.length >= 3) return;
+        if(!found.includes(r)) found.push(r);
+      });
+    }
+    return found.slice(0, 3);
+  }
+
+  let query = "";
+  let activeSection = null;
+
+  const sections = [...new Set(recipes.map(r => r.section))];
+  const nav = document.getElementById('sectionNav');
+  sections.forEach(sec => {
+    const btn = document.createElement('button');
+    btn.className = 'chip';
+    btn.textContent = sec;
+    btn.onclick = () => {
+      activeSection = activeSection === sec ? null : sec;
+      query = "";
+      document.getElementById('search').value = "";
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      if(activeSection) btn.classList.add('active');
+      render();
+    };
+    nav.appendChild(btn);
+  });
+
+  function matches(r){
+    const q = query.trim().toLowerCase();
+    if(!q) return true;
+    const haystack = [r.title, r.section, ...r.ingredients].join(' ').toLowerCase();
+    return haystack.includes(q);
+  }
+
+  function render(){
+    const list = document.getElementById('list');
+    const empty = document.getElementById('emptyMsg');
+    const label = document.getElementById('listLabel');
+    list.innerHTML = '';
+
+    const isSearching = query.trim().length > 0;
+    let toShow;
+
+    if(isSearching){
+      toShow = recipes.filter(matches);
+      label.textContent = 'Results';
+    }else if(activeSection){
+      toShow = recipes.filter(r => r.section === activeSection).sort((a,b) => a.title.localeCompare(b.title));
+      label.textContent = activeSection;
+    }else{
+      toShow = getRecentRecipes();
+      label.textContent = 'Recently used';
+    }
+
+    empty.style.display = toShow.length ? 'none' : 'block';
+
+    toShow.forEach(r => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `<h3>${r.title}</h3><span class="card-section">${r.section}</span>`;
+      card.onclick = () => openModal(r.id);
+      list.appendChild(card);
+    });
+  }
+
+  function openModal(id){
+    const r = recipes.find(x => x.id === id);
+    if(!r) return;
+    markUsed(id);
+    const modal = document.getElementById('modal');
+    modal.innerHTML = `
+      <button class="modal-close" onclick="closeModal()">Close ✕</button>
+      <p class="modal-section">${r.section}</p>
+      <h2>${r.title}</h2>
+      <h4>Ingredients</h4>
+      <ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+      ${r.steps.length ? `<h4>Method</h4><ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>` : ''}
+      ${r.note ? `<p class="note">${r.note}</p>` : ''}
+    `;
+    document.getElementById('overlay').classList.add('open');
+  }
+
+  function closeModal(){
+    document.getElementById('overlay').classList.remove('open');
+    render();
+  }
+
+  document.getElementById('overlay').addEventListener('click', (e) => {
+    if(e.target.id === 'overlay') closeModal();
+  });
+
+  document.getElementById('search').addEventListener('input', (e) => {
+    query = e.target.value;
+    if(query.trim()){
+      activeSection = null;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    }
+    render();
+  });
+
+  render();
+</script>
+
+</body>
+</html>
