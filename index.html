@@ -889,9 +889,7 @@
       <h2>${r.title}</h2>
       <h4>Ingredients</h4>
       <ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
-      <h4>Method</h4>
-      <ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>
-      ${r.note ? `<p class="note">${r.note}</p>` : ''}
+     ${r.steps.length ? `<h4>Method</h4><ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>` : ''}
     `;
     document.getElementById('overlay').classList.add('open');
   }
