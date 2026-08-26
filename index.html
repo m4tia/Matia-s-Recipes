@@ -330,7 +330,7 @@
         "Toast the spices and chop the herbs and garlic.",
         "Add to the remaining ingredients and combine."
       ],
-      note: "Garlic and lemon juice quantities weren't specified in the original file — adjust to taste."
+      note: 
     },
     {
       id: "chilli-caramel-dressing",
@@ -353,7 +353,7 @@
         "Add fish sauce, stir, then add remaining ingredients.",
         "Let cool, then add the lime juice."
       ],
-      note: "Chilli and lime leaf quantities weren't specified in the original file — adjust to taste."
+      note: 
     },
     {
       id: "coriander-pesto",
@@ -371,7 +371,7 @@
       steps: [
         "Place all ingredients in the robot coupe and mix until smooth."
       ],
-      note: "For Goanese tuna. Chilli quantity wasn't specified in the original file — adjust to taste."
+      note: 
     },
     {
       id: "creole-remoulade",
@@ -1042,7 +1042,7 @@
       <h2>${r.title}</h2>
       <h4>Ingredients</h4>
       <ul>${r.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
-     ${r.steps.length ? `<h4>Method</h4><ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>` : ''}
+     ${r.steps.length ? `<h4>Method</h4><ol>${r.steps.map(s => `<li>${s}</li>`).join('')}</ol>` : ''}      ${r.note ? `<p class="note">${r.note}</p>` : ''}
     `;
     document.getElementById('overlay').classList.add('open');
   }
