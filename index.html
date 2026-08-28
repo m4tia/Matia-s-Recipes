@@ -285,6 +285,526 @@
   // "note" is optional — only use it for something actually written in
   // the original recipe (like a stated yield), not your own comments.
   const recipes = [
+        {
+      id: "mayonnaise-sauce",
+      title: "Mayonnaise Sauce",
+      section: "Sauces",
+      ingredients: [
+        "1000g egg yolks",
+        "900g Dijon mustard",
+        "65g salt",
+        "5g white pepper",
+        "250g white wine vinegar",
+        "8000g vegetable oil",
+        "100g hot water"
+      ],
+      steps: [
+        "Put the yolks, mustard, vinegar, salt and pepper in the mixer bowl and whisk for 2 minutes to dissolve the salt.",
+        "Switch to a higher speed and add the oil.",
+        "Add the hot water.",
+        "Reserve in the cool room."
+      ]
+    },
+    {
+      id: "mussaman-curry",
+      title: "Mussaman Curry",
+      section: "Mains",
+      ingredients: [
+        "5kg veal shoulder, diced",
+        "6 potatoes, large dice",
+        "1600ml coconut milk",
+        "1600ml stock",
+        "2 star anise",
+        "4 long red chillies",
+        "1 tsp shrimp paste",
+        "2 tsp coriander seeds",
+        "2 tsp cumin seeds",
+        "1 tsp ground cinnamon",
+        "1 tsp ground cardamom",
+        "1 tsp white peppercorns",
+        "1/2 tsp ground clove",
+        "10 eschallots",
+        "1 stick lemongrass",
+        "1 knuckle ginger",
+        "Tamarind, to taste",
+        "Fish sauce, to taste",
+        "Palm sugar, to taste",
+        "Lime juice, to taste"
+      ],
+      steps: [
+        "Dry roast all the spices, then grind together with the chillies, ginger, lemongrass, shrimp paste and eschallots to make a curry paste.",
+        "Seal the veal, remove from the pan, then fry off the curry paste until fragrant. Return the veal to the pan.",
+        "Add stock, coconut milk and potatoes. Add tamarind, fish sauce and palm sugar.",
+        "Simmer until the meat is tender and the curry has thickened.",
+        "Adjust with fresh lime juice and balance the hot, sweet, sour and salty."
+      ]
+    },
+    {
+      id: "nuoc-cham",
+      title: "Nuoc Cham",
+      section: "Sauces",
+      ingredients: [
+        "10 chillies",
+        "5 cloves garlic",
+        "5 tbsp palm sugar",
+        "10 tbsp lime juice",
+        "15 tbsp water",
+        "15 tbsp fish sauce",
+        "10 tbsp rice wine vinegar"
+      ],
+      steps: [
+        "Crush the chillies, garlic and palm sugar.",
+        "Add the remaining ingredients."
+      ]
+    },
+    {
+      id: "pear-chutney",
+      title: "Pear Chutney",
+      section: "Sides",
+      ingredients: [
+        "Pears",
+        "Onions",
+        "10g ground cardamom",
+        "10g ground cumin",
+        "10g ground coriander",
+        "1 bunch coriander roots",
+        "5 cloves garlic",
+        "250ml vinegar",
+        "500g sugar"
+      ],
+      steps: [
+        "Fry off diced onion, garlic and coriander roots in oil and butter.",
+        "Add the spices and fry for a further couple of minutes.",
+        "Add diced pear and cook for approximately 10 minutes.",
+        "In a small pot, make a caramel with the sugar and vinegar, then pour over the pear mix and cook until a thick consistency is reached."
+      ]
+    },
+    {
+      id: "pickled-ginger",
+      title: "Pickled Ginger",
+      section: "Sides",
+      ingredients: [
+        "300g green ginger",
+        "350ml rice wine vinegar",
+        "50ml lemon juice",
+        "25ml fish sauce"
+      ],
+      steps: []
+    },
+    {
+      id: "pickled-grapes",
+      title: "Pickled Grapes",
+      section: "Sides",
+      ingredients: [
+        "1.5kg grapes, salted for 12 hours",
+        "2 tbsp paprika",
+        "1 knob green ginger",
+        "8 cups vinegar",
+        "1 tbsp peppercorns",
+        "1 red chilli",
+        "1 clove garlic",
+        "2 tbsp mustard seeds",
+        "8 cloves",
+        "2 tsp salt",
+        "2 cups sugar"
+      ],
+      steps: []
+    },
+    {
+      id: "pita-bread",
+      title: "Pita Bread",
+      section: "Sides",
+      ingredients: [
+        "1740g water",
+        "120g fresh yeast",
+        "2500g baker's flour",
+        "500g whole wheat flour",
+        "60g salt",
+        "88g sugar",
+        "360g plain low-fat yoghurt",
+        "120g olive oil"
+      ],
+      steps: [
+        "Straight dough method — mix 5 minutes on speed 1, then 7 minutes on speed 2."
+      ]
+    },
+    {
+      id: "prawn-pineapple-ginger-relish",
+      title: "Prawn, Pineapple and Ginger Relish",
+      section: "Sides",
+      ingredients: [
+        "Chillies",
+        "1 tsp coriander roots",
+        "1 tbsp ginger",
+        "6 cloves garlic",
+        "Eschallots",
+        "1/4 tsp white pepper",
+        "1 pinch salt",
+        "4 cups vegetable oil",
+        "1 cup coconut cream",
+        "1 cup pork belly, minced",
+        "1 cup pineapple, minced",
+        "1 cup green prawns, minced",
+        "Lime leaves",
+        "4 tbsp palm sugar",
+        "2 tbsp fish sauce",
+        "Eschallots",
+        "1/2 cup roasted peanuts, ground",
+        "1 tbsp coriander leaves",
+        "1/4 cup Thai basil leaves"
+      ],
+      steps: [
+        "Pound the paste ingredients (chillies, coriander roots, ginger, garlic, eschallots, white pepper, salt) together in a mortar and pestle.",
+        "Heat the oil and coconut cream to the boil and cook until separated, then add the paste and fry until fragrant.",
+        "Add the pork, pineapple and prawns and cook until just coloured. Stir well and add the lime leaves.",
+        "Add the sugar and cook until just caramelising, then stir in the fish sauce and simmer for 15 minutes.",
+        "Finally, add the eschallots, peanuts, coriander and basil leaves."
+      ],
+      note: "Serve with iceberg lettuce cups and plenty of fresh herbs, bean shoots and fresh red chilli."
+    },
+    {
+      id: "preserved-lemon-salsa-verde",
+      title: "Preserved Lemon Salsa Verde",
+      section: "Sauces",
+      ingredients: [
+        "6 preserved lemons",
+        "1 bunch parsley",
+        "8 anchovies",
+        "2 tbsp capers",
+        "1 red onion",
+        "2 lemons, juiced",
+        "250ml olive oil",
+        "Cracked black pepper"
+      ],
+      steps: [
+        "Chop the parsley, preserved lemon rind, capers, onion and anchovies until fine.",
+        "Add the remaining ingredients and mix well."
+      ]
+    },
+    {
+      id: "sauce-cumberland",
+      title: "Sauce Cumberland",
+      section: "Sauces",
+      ingredients: [
+        "Shallot",
+        "4 tsp vinegar",
+        "1/2 tsp white peppercorns",
+        "100ml veal stock",
+        "50ml port",
+        "2 tsp redcurrant jelly",
+        "1 tsp Worcestershire sauce",
+        "Zest of orange and lemon"
+      ],
+      steps: [
+        "Make a reduction with the vinegar, shallot and pepper.",
+        "Add the remaining ingredients and simmer for 20 minutes, adding the zest at the end."
+      ]
+    },
+    {
+      id: "seaweed-foam",
+      title: "Seaweed Foam",
+      section: "Sauces",
+      ingredients: [
+        "500ml dashi stock",
+        "200ml cream",
+        "4 leaves gelatine",
+        "1 sheet seaweed"
+      ],
+      steps: [
+        "Toast the seaweed and make the dashi stock.",
+        "Combine the ingredients and blend, then add the gelatine.",
+        "Place in a siphon with 2 canisters and leave overnight until cold."
+      ]
+    },
+    {
+      id: "sesame-salt",
+      title: "Sesame Salt",
+      section: "Spice Mixes & Pastes",
+      ingredients: [
+        "1 tbsp sesame seeds",
+        "1/2 tsp cayenne",
+        "1 tsp coriander",
+        "1/2 tsp cumin",
+        "Salt and pepper"
+      ],
+      steps: []
+    },
+    {
+      id: "tomato-roasted-shallot-dressing",
+      title: "Tomato and Roasted Shallot Dressing",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "5kg Romano tomatoes",
+        "6 bunches unpeeled shallots",
+        "25ml virgin olive oil, plus 1/4 cup extra",
+        "3.5 bulbs garlic",
+        "1lt balsamic vinegar",
+        "400g chipotle chilli purée",
+        "1.25kg basil leaves"
+      ],
+      steps: [
+        "Blacken the tomatoes and shallots with the olive oil, then remove from heat and cool.",
+        "Peel the shallots and place in a processor with the tomatoes. Pulse, then add the garlic, vinegar and chilli purée and basil.",
+        "With the machine running, add the extra 1/4 cup of olive oil and process until emulsified.",
+        "Season."
+      ]
+    },
+    {
+      id: "shanghai-marinade",
+      title: "Shanghai Marinade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "4 cups dark soy sauce",
+        "2 cups light soy sauce",
+        "2 cups Shaoxing wine",
+        "1 cup sugar",
+        "Star anise",
+        "4 tsp fennel seeds",
+        "Cinnamon sticks",
+        "Dried mandarin peel",
+        "4lt water"
+      ],
+      steps: [
+        "Simmer all ingredients for 1 hour."
+      ]
+    },
+    {
+      id: "soy-wasabi-vinaigrette",
+      title: "Soy Wasabi Vinaigrette",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "100ml soy sauce",
+        "20g wasabi paste",
+        "30ml honey",
+        "30g Dijon mustard",
+        "Egg yolks",
+        "1lt oil",
+        "250ml rice wine vinegar"
+      ],
+      steps: [
+        "Make as for mayonnaise."
+      ]
+    },
+    {
+      id: "spiced-truffle-honey-sauce",
+      title: "Spiced Truffle Honey Sauce",
+      section: "Sauces",
+      ingredients: [
+        "2lt veal jus",
+        "1 tsp fennel seeds",
+        "1/2 tsp nutmeg",
+        "2 star anise",
+        "6 cloves",
+        "1 tsp coriander seeds",
+        "90ml truffle honey",
+        "90ml honey",
+        "100ml sherry vinegar",
+        "1 onion",
+        "1 coin ginger"
+      ],
+      steps: [
+        "Dry roast all the spices until fragrant, then pound in a mortar and pestle.",
+        "Fry the diced onion and chopped ginger, add the spices, and gently fry for 5 minutes.",
+        "Add the jus, honey and sherry vinegar, then strain and serve."
+      ]
+    },
+    {
+      id: "steak-marinade",
+      title: "Steak Marinade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "4lt olive oil",
+        "4lt vegetable oil",
+        "2 cups Dijon mustard",
+        "150ml Tabasco",
+        "Cloves of garlic",
+        "3 cups white vinegar",
+        "6 cups soy sauce"
+      ],
+      steps: [
+        "Blend all ingredients together."
+      ]
+    },
+    {
+      id: "a-la-grecque-sauce",
+      title: "A la Grecque Sauce",
+      section: "Sauces",
+      ingredients: [
+        "10 strands saffron, roasted and crushed",
+        "80ml white wine vinegar",
+        "40ml white wine",
+        "1 tsp honey",
+        "5 shallots, finely diced",
+        "2 cloves garlic, finely chopped",
+        "2 sprigs thyme leaves",
+        "1 chilli, finely chopped",
+        "1 tsp coriander seeds, roasted and crushed",
+        "1/2 tsp white peppercorns, roasted and crushed",
+        "1/2 tsp fennel seeds, roasted and crushed",
+        "Juice of 1 lemon",
+        "250ml olive oil",
+        "Salt and cracked pepper"
+      ],
+      steps: [
+        "In a saucepan, mix the saffron with the vinegar, white wine and honey. Dissolve the honey and add the shallots, garlic, chilli and thyme.",
+        "Pour into a bowl and allow to cool.",
+        "Add the spices, lemon juice, olive oil, salt and pepper."
+      ]
+    },
+    {
+      id: "quail-marinade",
+      title: "Quail Marinade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "1 bunch coriander roots",
+        "4 shallots",
+        "2 cloves garlic",
+        "Zest and juice of 1 lemon",
+        "1 chilli",
+        "1 tsp coriander seeds, roasted and crushed",
+        "Olive oil"
+      ],
+      steps: []
+    },
+    {
+      id: "chicken-marinade",
+      title: "Chicken Marinade",
+      section: "Marinades & Dressings",
+      ingredients: [
+        "18 pods cardamom",
+        "3 cloves garlic, roughly chopped",
+        "1 tbsp salt",
+        "2 tbsp fresh oregano (or 2 tsp dried oregano)",
+        "80ml olive oil",
+        "Black pepper"
+      ],
+      steps: [
+        "Pound the cardamom pods to loosen the husks, then remove the husks and continue to pound.",
+        "Add the garlic, salt and oregano, mix well, then add the olive oil.",
+        "Rub all over the chickens."
+      ]
+    },
+    {
+      id: "potato-gnocchi",
+      title: "Potato Gnocchi",
+      section: "Mains",
+      ingredients: [
+        "2 large potatoes (400g each)",
+        "160g plain flour",
+        "1 tsp salt",
+        "1 egg yolk",
+        "Chopped sage",
+        "Parmesan cheese"
+      ],
+      steps: [
+        "Bake the potatoes for about 1 hour, or until cooked.",
+        "Scoop out the flesh while still hot and press through a potato ricer.",
+        "Gently mix in the salt, flour, egg yolk, parmesan and herbs until smooth.",
+        "Shape into pillow shapes and cook in simmering salted water for about 3 minutes.",
+        "Place into cold water and strain."
+      ]
+    },
+    {
+      id: "fried-almond-risotto",
+      title: "Fried Almond Risotto",
+      section: "Mains",
+      ingredients: [
+        "100g flaked almonds",
+        "60ml olive oil",
+        "1 onion",
+        "400g risotto rice",
+        "Chicken stock",
+        "2 tbsp celery leaves",
+        "100g butter",
+        "1/4 tsp allspice",
+        "1/4 tsp cinnamon",
+        "60g parmesan cheese",
+        "Salt and pepper"
+      ],
+      steps: []
+    },
+    {
+      id: "rose-scented-mascarpone-tart",
+      title: "Rose Scented Mascarpone Tart",
+      section: "Desserts",
+      ingredients: [
+        "Sweet dough (for lining)",
+        "Zest of 1 lemon",
+        "110g caster sugar",
+        "250ml cream",
+        "Rose water",
+        "5 egg yolks",
+        "1 egg white",
+        "250g mascarpone"
+      ],
+      steps: [
+        "Line a pastry tart ring with the sweet dough and rest.",
+        "Mix the zest through the sugar. Bring the cream to the boil, add the rose water and sugar, and stir to dissolve. Allow to infuse for 10 minutes, then warm again slightly.",
+        "Whisk the egg yolks and white and add to the cream mix, then strain onto the mascarpone and whisk until very smooth.",
+        "Blind bake the pastry, then remove the rice and continue to bake until golden.",
+        "Set the oven to 120°C, fill with the mascarpone mix, and bake for approximately 50 minutes — the tart should still be wobbly in the centre."
+      ]
+    },
+    {
+      id: "spiced-figs",
+      title: "Spiced Figs",
+      section: "Desserts",
+      ingredients: [
+        "6 figs",
+        "3 tbsp honey",
+        "150ml sugar syrup",
+        "2 cinnamon sticks",
+        "2 cloves",
+        "2 vanilla pods",
+        "3 star anise",
+        "Zest of 1 orange",
+        "3 tbsp balsamic vinegar"
+      ],
+      steps: [
+        "Place all ingredients except the figs in a pan and reduce until syrupy.",
+        "Spoon the syrup over the figs and bake uncovered for about 30 minutes at 150°C, basting every 10 minutes."
+      ]
+    },
+    {
+      id: "banana-ice-cream",
+      title: "Banana Ice Cream",
+      section: "Desserts",
+      ingredients: [
+        "2lt crème anglaise base",
+        "4-5 finely chopped ripe bananas"
+      ],
+      steps: [
+        "Make as per a normal 2 litre anglaise, adding the bananas when bringing the milk to the boil.",
+        "Simmer for 10-15 minutes and mash with a wooden spoon, then strain onto the yolks and cook out."
+      ]
+    },
+    {
+      id: "cardamom-ice-cream",
+      title: "Cardamom Ice Cream",
+      section: "Desserts",
+      ingredients: [
+        "2lt crème anglaise base (omit the vanilla)",
+        "2 tbsp cardamom pods"
+      ],
+      steps: [
+        "Make as per a normal 2 litre anglaise, omitting the vanilla beans and infusing the cardamom pods instead."
+      ]
+    },
+    {
+      id: "almond-ice-cream",
+      title: "Almond Ice Cream",
+      section: "Desserts",
+      ingredients: [
+        "2lt crème anglaise base",
+        "400g toasted almonds",
+        "100ml amaretto"
+      ],
+      steps: [
+        "Infuse the toasted almonds into the milk for 15 minutes, then purée and strain, squeezing out the almond purée (top up with extra milk to make the original 2 litres if necessary).",
+        "Return to heat and continue making as an anglaise.",
+        "When cold, add the amaretto and churn."
+      ]
+    },
     {
       id: "capsicum-dressing",
       title: "Char-Grilled Capsicum Dressing",
