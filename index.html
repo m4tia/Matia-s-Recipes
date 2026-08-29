@@ -286,6 +286,239 @@
   // the original recipe (like a stated yield), not your own comments.
   const recipes = [
         {
+      id: "bourbon-syrup",
+      title: "Bourbon Syrup",
+      section: "Sauces",
+      ingredients: [
+        "400g caster sugar",
+        "250ml water",
+        "150ml bourbon"
+      ],
+      steps: [
+        "Put the sugar and 200ml water in a saucepan, bring to the boil, and cook to a golden brown caramel.",
+        "Carefully add 50ml boiling water and boil to mix. Take off the heat and cool for 2 minutes.",
+        "While the caramel is cooling, warm the bourbon, then add to the caramel and stir to incorporate.",
+        "Allow to cool. If the syrup isn't fully dissolved, gently warm over very low heat until clear."
+      ]
+    },
+    {
+      id: "braised-fennel",
+      title: "Braised Fennel",
+      section: "Sides",
+      ingredients: [
+        "Fennel bulbs, stalks removed, cut into wedges",
+        "Vegetable stock, enough to cover",
+        "Pinch of saffron"
+      ],
+      steps: [
+        "Infuse the saffron threads in a little boiling water.",
+        "Place the fennel in a pot and cover with stock, then add the saffron water.",
+        "Bring to a gentle simmer and cook until just soft through."
+      ],
+      note: "For squid salad."
+    },
+    {
+      id: "braised-lamb-shanks",
+      title: "Braised Lamb Shanks",
+      section: "Mains",
+      ingredients: [
+        "40 lamb shanks",
+        "Seasoned plain flour, for dusting",
+        "1/4 gastro tray onion, 1cm dice",
+        "1/4 gastro tray carrot, 1cm dice",
+        "1/4 gastro tray celery, 1cm dice",
+        "6 oranges, washed and quartered",
+        "1 kitchen spoon minced garlic",
+        "2 kitchen spoons tomato paste",
+        "Salt and pepper",
+        "3lt red wine",
+        "Bouquet garni (1 per tray) — thyme, bay leaves, rosemary, parsley stalks wrapped in leek",
+        "4lt chicken stock, simmering",
+        "1 A10 tin tomatoes, puréed"
+      ],
+      steps: [
+        "Seal the flour-dusted shanks on the flat grill until golden brown all over. Arrange 20 per deep gastro tray in one layer.",
+        "Sweat the diced vegetables in a large pot. Add the garlic once softened and cook out, then the tomato paste and cook out. Season.",
+        "Deglaze with red wine and add the tomato purée. Bring to the boil and turn off.",
+        "Evenly distribute the sauce into all trays of shanks. Top up each tray with 2 litres of chicken stock.",
+        "Add the bouquet garnis and quartered oranges, cover with foil, and bake at 180°C (conventional) or 165°C (combi).",
+        "Check doneness at 1.5 hours — meat should feel soft enough to fall apart when squeezed firmly but still hold onto the bone. Total time is 1.5-2.5 hours depending on shank size.",
+        "Remove the shanks and cool rapidly. Remove the bouquet garnis and orange from the sauce, bring to a simmer and skim fat and impurities. Check seasoning and cool rapidly."
+      ]
+    },
+    {
+      id: "braised-pork-neck",
+      title: "Braised Pork Neck",
+      section: "Mains",
+      ingredients: [
+        "1 whole pork neck (approx 2.5kg), sliced into 200g steaks",
+        "2 carrots, quartered lengthways and sliced",
+        "4 sticks celery, diced",
+        "3 large onions, fine dice",
+        "10 golden delicious apples, peeled, quartered and sliced",
+        "2 tbsp minced garlic",
+        "1/4 cup sage leaves, finely sliced",
+        "Bouquet garni — parsley stalks, thyme, rosemary, bay leaves, wrapped in leek",
+        "4lt chicken stock",
+        "1 kitchen spoon honey",
+        "1 cup dry sherry",
+        "Salt and pepper",
+        "Unsalted butter and olive oil blend"
+      ],
+      steps: [
+        "Season the pork and brown on the hotplate with a little butter and oil.",
+        "Sweat the vegetables in a large pot until softened. Add the garlic, bouquet garni and sage, stir for another minute or two.",
+        "Add the browned pork and apples to the pot, deglaze with the sherry.",
+        "Season, add the honey and chicken stock, bring to the boil, then turn down to just below a simmer.",
+        "Skim as necessary and cook on very low heat until the pork is tender — a couple of hours.",
+        "Carefully transfer to gastro trays to cool rapidly in the coolroom."
+      ]
+    },
+    {
+      id: "braised-oxtail",
+      title: "Braised Oxtail",
+      section: "Mains",
+      ingredients: [
+        "20kg oxtail",
+        "Seasoned flour, for dusting",
+        "1/3 gastro tray onion, 1/2cm dice",
+        "1/3 gastro tray carrot, 1/2cm dice",
+        "1/3 gastro tray celery, 1/2cm dice",
+        "Bouquet garni (1 per tray) — parsley stalks, thyme, bay leaves, rosemary, wrapped in leek",
+        "1/2 orange (1 per tray)",
+        "3 kitchen spoons garlic purée",
+        "1 kitchen spoon tomato paste",
+        "1 A10 tin tomatoes, puréed",
+        "3lt red wine",
+        "3lt chicken stock",
+        "Salt and pepper"
+      ],
+      steps: [
+        "Dust the oxtail with seasoned flour and brown on the hot plate. Arrange in baking pans up to 2 layers deep.",
+        "Sweat the mirepoix in a large pot in olive oil blend and butter for about 10 minutes on medium/high heat. Add the garlic, then the tomato paste.",
+        "Deglaze with wine, then add the stock and puréed tomato. Bring to the boil.",
+        "Pour the sauce over the oxtail — it should cover the meat by at least 4cm; top up with more stock if needed.",
+        "Add the bouquet garnis and orange to each tray, cover with foil, and roast at 190-220°C until the meat is just falling off the bone.",
+        "Remove the oxtail and cool. Remove the orange and bouquet garni from the sauce, bring to a simmer, and skim fat from the surface for at least 1/2 an hour.",
+        "Taste and adjust seasoning, then cool."
+      ]
+    },
+    {
+      id: "breadcrumbs-for-veal",
+      title: "Breadcrumbs for Veal",
+      section: "Sides",
+      ingredients: [
+        "1 loaf white sliced bread, no crusts",
+        "80g powdered parmesan",
+        "50g parsley, finely chopped",
+        "Salt and pepper"
+      ],
+      steps: [
+        "In the food processor, blitz the bread into fine crumbs.",
+        "Add the other ingredients and blitz until incorporated."
+      ]
+    },
+    {
+      id: "buttermilk-pudding",
+      title: "Buttermilk Pudding",
+      section: "Desserts",
+      ingredients: [
+        "600ml buttermilk",
+        "125g caster sugar",
+        "250ml cream",
+        "1 vanilla bean, split in half",
+        "3 3/4 gelatine leaves"
+      ],
+      steps: [
+        "Heat half the cream with the sugar and vanilla bean, simmer a few minutes to infuse.",
+        "Remove the vanilla bean and scrape the seeds back into the cream.",
+        "Soften the gelatine in cold water, then stir into the hot cream.",
+        "Whisk the heated cream onto the buttermilk, then strain.",
+        "Whisk the remaining cream to soft peaks and fold into the cooled buttermilk mixture. Fill plastic moulds."
+      ]
+    },
+    {
+      id: "butter-sauce-chicken",
+      title: "Butter Sauce (for Chicken)",
+      section: "Sauces",
+      ingredients: [
+        "1 A10 tin whole peeled tomatoes, puréed",
+        "3lt thickened cream",
+        "1/2 cup grated ginger",
+        "Garam masala",
+        "Salt",
+        "Sugar",
+        "1 1/2 tsp cayenne pepper",
+        "Coriander, finely chopped",
+        "200ml lemon juice",
+        "Ground cumin, roasted",
+        "150g unsalted butter",
+        "1 x 290g jar Sharwood's tandoori paste",
+        "Tomato paste"
+      ],
+      steps: [
+        "Make a smooth liquid with the tandoori paste, tomato paste and a little boiling water.",
+        "Whisk all the ingredients together except the butter in a large container.",
+        "Melt the butter in a large heavy-based pot and add the raw sauce.",
+        "Bring to a gentle boil, stirring occasionally over 10 minutes. Skim if necessary.",
+        "Remove from heat and transfer to plastic containers for fast chilling."
+      ]
+    },
+    {
+      id: "braised-beef-cheek",
+      title: "Braised Beef Cheek",
+      section: "Mains",
+      ingredients: [
+        "2 beef cheeks (approx 250g each)",
+        "2 sticks celery",
+        "2 medium carrots",
+        "1 large onion",
+        "440ml Guinness",
+        "1lt beef stock",
+        "10 juniper berries",
+        "100ml honey",
+        "White peppercorns",
+        "1 bay leaf"
+      ],
+      steps: [
+        "Peel and dice the carrot and onion into centimetre cubes along with the celery. Place in a roasting dish with the juniper, bay leaf and pepper, and sauté to get a little colour.",
+        "Trim the beef cheeks of sinew, then seal in a hot pan to get an even brown colour.",
+        "Sit the cheeks on the sautéed vegetables and pour over the beef stock, honey and Guinness.",
+        "Cover with a lid or foil and cook at 200°C for 2.5 hours.",
+        "Slice the cheek on an angle and serve atop potato mash."
+      ],
+      note: "Serves 4-6. Serve with black olive tapenade and another can of Guinness."
+    },
+    {
+      id: "braised-pork-belly-fennel",
+      title: "Braised Pork Belly with Fennel, Lemon and Chilli",
+      section: "Mains",
+      ingredients: [
+        "2kg pork belly",
+        "1 carrot",
+        "1 onion",
+        "1 leek",
+        "2 sticks celery",
+        "5lt vegetable stock",
+        "5 cloves garlic",
+        "1/4 bunch thyme",
+        "1 long stem rosemary",
+        "100ml olive oil",
+        "10 baby fennel",
+        "2 long red chillies",
+        "3 lemons",
+        "5 tomatoes",
+        "250ml white wine"
+      ],
+      steps: [
+        "Finely dice all the vegetables. Fry them with the garlic, lemon zest, thyme and rosemary in a large heavy-based pot until a little coloured, then deglaze with white wine.",
+        "Cube the pork belly and seal in a separate pan, then add to the vegetable mix.",
+        "Pour over the stock, cover, and cook gently for approx 2 hours or until the pork is starting to fall apart.",
+        "Let cool, skim off the excess fat, and keep until ready to use.",
+        "To serve, heat in a pot with some lemon juice and fresh chopped chilli. Serve over pasta, polenta or mash."
+      ]
+    },
+        {
       id: "beef-mushroom-pie-filling",
       title: "Beef and Mushroom Pie Filling",
       section: "Mains",
